@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
+    
 });
 
 //יצירת Schema 
