@@ -45,12 +45,12 @@ export default function Login() {
                         <form onSubmit={handleSubmit(checkData)} className="mt-10 space-y-8 dark:text-white">
                             <div>
                                 <div className="relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300" >
-                                    <input onFocus={() => setFlag(false)} {...register("email", { required: true })} id="email" type="email" placeholder="Insert your email" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input onFocus={() => setFlag(false)} {...register("email", { required: true })} id="email" type="email" placeholder="Insert your email" autoComplete="username" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
                                 </div>
                             </div>
                             <div className="flex flex-col items-end">
                                 <div className="w-full relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300">
-                                    <input onFocus={() => setFlag(false)} id="password" {...register("password", { required: true })} type={showPassword ? "text" : "password"} placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input onFocus={() => setFlag(false)} id="password" autoComplete="current-password" {...register("password", { required: true })} type={showPassword ? "text" : "password"} placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
                                 </div>
                                 <button className="w-6 dark" onClick={togglePasswordVisibility} type="button"><img src={showPassword ? eyeOff : eye} alt="" /></button>
                                 <button onClick={sendEmail} type="button" className="-mr-3 w-max p-3">
