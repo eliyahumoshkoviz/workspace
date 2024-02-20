@@ -28,17 +28,13 @@ const userSchema = new mongoose.Schema({
     groups: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "group",
+            ref: "Group",
         }
     ]
     ,
     createDate: {
         type: Date,
         default: Date.now,
-    },
-    isActive: {
-        type: Boolean,
-        default: true,
     },
     isActive: {
         type: Boolean,

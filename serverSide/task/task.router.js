@@ -1,16 +1,16 @@
 const express = require("express"),
     router = express.Router();
 
-const userService = require("./user.service");
+const taskService = require("./task.service");
 const { authenticate } = require("../middleware/autu");
 
 router.post("/", authenticate, async (req, res) => {
     try {
-        let result = await userService.addNewUser(req.body);
+        let result = await taskService.addNewTask(req.body);
         res.send(
             {
                 success: true,
-                message: "User added successfully",
+                message: "Task added successfully",
                 deletedUser: result
             }
         );
@@ -21,7 +21,7 @@ router.post("/", authenticate, async (req, res) => {
 
 router.get("/", authenticate, async (req, res) => {
     try {
-        let result = await userService.GetUserInfo({ email: req.body.email });
+        let result = await taskService.GetTaskInfo(req.body.data);
         res.send(
             {
                 deletedUser: result
@@ -34,14 +34,14 @@ router.get("/", authenticate, async (req, res) => {
 
 router.patch("/", authenticate, async (req, res) => {
     try {
-        const result = await userService.GetUserInfo({ email: req.body.email });
-        const updated = await userService.updateFieldById(result._id, req.body.data);
+
+        const updated = await taskService.updateFieldById(req.body.id, req.body.data);
 
         res.send(
             {
                 success: updated.modifiedCount > 0,
-                message: updated.modifiedCount > 0 ? "User updated successfully." : "User not updated",
-                deletedUser: updated.modifiedCount > 0 ? await userService.GetUserInfo({ email: req.body.email }) : null
+                message: updated.modifiedCount > 0 ? "Task updated successfully." : "Task not updated",
+                deletedUser: updated.modifiedCount > 0 ? await taskService.GetTaskInfo({ _id: req.body.id }) : null
             }
         );
     } catch (err) {
@@ -53,15 +53,14 @@ router.patch("/", authenticate, async (req, res) => {
 router.delete("/", authenticate, async (req, res) => {
     try {
 
-        let user = await userService.GetUserInfo({ email: req.body.email });
-        let result = await userService.del(req.body);
-        user.isActive = false;
+        let task = await taskService.GetTaskInfo({ _id: req.body.id });
+        let result = await taskService.del({ _id: req.body.id });
 
-        res.status(result.modifiedCount > 0 ? 200 : 400).send(
+        res.status(result.deletedCount > 0 ? 200 : 400).send(
             {
-                success: result.modifiedCount > 0,
-                message: result.modifiedCount > 0 ? "User deleted successfully." : "User not found",
-                deletedUser: result.modifiedCount > 0 ? user : null
+                success: result.deletedCount > 0,
+                message: result.deletedCount > 0 ? "Task deleted successfully." : "Task not found",
+                deletedUser: result.deletedCount > 0 ? task : null
             }
         );
 

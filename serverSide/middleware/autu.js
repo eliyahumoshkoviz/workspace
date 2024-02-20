@@ -10,12 +10,11 @@ const createToken = (user = {}) => {
 
 //this function called When the user wants to perform actions 
 const authenticate = (req, res, next) => {
-    const token = req.headers.authorization.split('Bearer ')[1];
+    const token = req.headers.authorization?.split('Bearer ')[1];
     try {
         let details = jwt.verify(token, SECRET);
         req.body.auth = {
-            permission: details.permission,
-            email: details.email,
+            email: details.email
         }
         next();
 
@@ -24,16 +23,16 @@ const authenticate = (req, res, next) => {
     }
 }
 
-const checkPermission = (req, res, next) => {
-    if (req.body.auth.permission === "user") {
-        if (req.body.auth.email === req.body.email) {
-            next();
-        } else {
-            res.status(403).send("Permission denied. You are not allowed to update other users.");
-        }
-    } else {
-        next();
-    }
-};
+// const checkPermission = (req, res, next) => {
+//     if (req.body.auth.permission === "user") {
+//         if (req.body.auth.email === req.body.email) {
+//             next();
+//         } else {
+//             res.status(403).send("Permission denied. You are not allowed to update other users.");
+//         }
+//     } else {
+//         next();
+//     }
+// };
 
-module.exports = { createToken, authenticate, checkPermission };
+module.exports = { createToken, authenticate };

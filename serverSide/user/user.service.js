@@ -27,7 +27,7 @@ async function addNewUser(data) {
 
 async function GetUserInfo(data) {
 
-    // Makes sure the data exist
+    // Makes sure the data is not empty
     if (!data) {
         throw {
             code: 400,

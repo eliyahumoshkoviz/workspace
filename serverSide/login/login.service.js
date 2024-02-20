@@ -27,7 +27,7 @@ async function isUserExists({email,password}) {
         };
     }
 
-    return { token: createToken({ email: user.email, permission: user.permission }) }
+    return { token: createToken({ email: user.email }) }
 
 }
 
