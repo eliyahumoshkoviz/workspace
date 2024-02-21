@@ -1,10 +1,10 @@
 const groupController = require("./group.controller");
 const mongoose = require('mongoose');
+const userController = require("../user/user.controller")
 
 async function addNewGroup(data) {
     // Makes sure the data is not empty and then checks if the required fields exist 
-    // and if user is of ObjectId type
-    if (!data?.name || !data?.description || !data?.user ||!mongoose.Types.ObjectId.isValid(data.user)) {
+    if (!data?.name || !data?.description || !data?.user) {
         throw {
             code: 400,
             message:
@@ -12,7 +12,34 @@ async function addNewGroup(data) {
         };
     }
 
-    return await groupController.create(data);
+    // checks if user is of ObjectId type
+    if (!mongoose.Types.ObjectId.isValid(data.user)) {
+        throw {
+            code: 400,
+            message:
+                "input error - user must be ObjectId type",
+        };
+    }
+
+    // check if user exist or not active
+    const userExists = await userController.readOne({ _id: data.user });
+    if (!userExists|| !userExists.isActive) {
+        throw {
+            code: 400,
+            message: "input error - user does not exist",
+        };
+    }
+
+    const groupData = {
+        name: data.name,
+        description: data.description,
+        managers: [data.user],
+        members: [{ user: data.user }],
+        tasks: data.tasks || [] 
+    };
+
+
+    return await groupController.create(groupData);
 
 }
 
@@ -75,7 +102,7 @@ async function updateFieldById(id, data) {
 async function del(id) {
 
     // Makes sure the id is not empty
-    if (!id || !mongoose.Types.ObjectId.isValid(id) ) {
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
         throw {
             code: 400,
             message: "input error - missing id",

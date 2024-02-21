@@ -11,7 +11,7 @@ router.post("/", authenticate, async (req, res) => {
             {
                 success: true,
                 message: "Task added successfully",
-                deletedUser: result
+                deletedTask: result
             }
         );
     } catch (err) {

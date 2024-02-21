@@ -23,6 +23,8 @@ const authenticate = (req, res, next) => {
     }
 }
 
+// במתשמשים רק בקבוצות מחקתי כי עדין לא הגדרתי את  ההגדרה של המשתמש האם הוא מנהל או משתמש
+
 // const checkPermission = (req, res, next) => {
 //     if (req.body.auth.permission === "user") {
 //         if (req.body.auth.email === req.body.email) {

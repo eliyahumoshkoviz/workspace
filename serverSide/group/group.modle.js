@@ -11,7 +11,8 @@ const groupSchema = new mongoose.Schema({
     },
     managers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'user',
+        required: true
     }],
     members: [{
         user: {
@@ -21,7 +22,7 @@ const groupSchema = new mongoose.Schema({
         },
         active: {
             type: Boolean,
-            default: true
+            default: true,
         }
     }],
     tasks: [{
@@ -40,6 +41,13 @@ const groupSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
+});
+
+groupSchema.pre('save', async function (next) {
+    if (this.managers.length === 0 || this.members.length === 0) {
+        return next(new Error('At least one manager and one member are required'));
+    }
+    next();
 });
 
 

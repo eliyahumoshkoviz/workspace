@@ -4,15 +4,15 @@ const express = require("express"),
 const groupService = require("./group.service");
 const { authenticate } = require("../middleware/autu");
 
-router.post("/", async (req, res) => {
-    
+router.post("/", authenticate, async (req, res) => {
+
     try {
         let result = await groupService.addNewGroup(req.body);
         res.send(
             {
                 success: true,
                 message: "Group added successfully",
-                deletedUser: result
+                deletedGroup: result
             }
         );
     } catch (err) {
