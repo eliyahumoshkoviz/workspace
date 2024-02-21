@@ -13,10 +13,12 @@ const userRouter = require("./user/user.router");
 const LogRouter = require("./login/login.router");
 const registrationRouter = require("./registration/registration.router");
 const taskRouter = require("./task/task.router");
+const groupRouter = require("./group/group.router");
 
 app.use("/login", LogRouter);
 app.use("/registration", registrationRouter);
 app.use("/user", userRouter);
 app.use("/tasks", taskRouter);
+app.use("/group", groupRouter);
 
 app.listen(8000, () => console.log("### Server is up ###"));

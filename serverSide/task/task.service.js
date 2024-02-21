@@ -2,7 +2,7 @@ const taskController = require("./task.controller");
 const mongoose = require('mongoose');
 
 async function addNewTask(data) {
-    // Makes sure the data is not empty and then checks if the required fields exist
+    // Makes sure the data data not empty and then checks if the required fields exist
     if (!data?.title || !data?.description || !data?.assignedTo) {
         throw {
             code: 400,
@@ -14,19 +14,25 @@ async function addNewTask(data) {
     const flag = !data.group || mongoose.Types.ObjectId?.isValid(data.group);
 
     //Checks if assignedTo and group are of ObjectId type
-    if (mongoose.Types.ObjectId.isValid(data.assignedTo) && flag) {
-        return await taskController.create(data);
+    if (!mongoose.Types.ObjectId.isValid(data.assignedTo) || !flag) {
+        throw {
+            code: 400,
+            message:
+                "input error - assignedTo or group (if exsit) must be ObjectId type",
+        };
     }
+
+    return await taskController.create(data);
 }
 
 async function GetTaskInfo(data) {
 
-    // Makes sure the id is not empty
+    // Makes sure the data is not empty
     if (!data) {
         throw {
             code: 400,
             message:
-                "input error - missing id",
+                "input error - missing data",
         };
     }
 
@@ -43,7 +49,7 @@ async function GetTaskInfo(data) {
 async function updateFieldById(id, data) {
 
     // Makes sure the id and data are not empty
-    if (!id || !data) {
+    if (!id || !data || !mongoose.Types.ObjectId.isValid(id)) {
         throw {
             code: 400,
             message:
@@ -64,7 +70,7 @@ async function updateFieldById(id, data) {
         };
     }
 
-    // check if task exist
+    // check if task exist 
     // if not exist throw code 400
     let task = await taskController.readOne(id);
     if (!task) {
