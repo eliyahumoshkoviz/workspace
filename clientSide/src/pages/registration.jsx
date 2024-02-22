@@ -2,11 +2,26 @@ import icon from "../assets/weave.svg"
 import eyeOff from "../assets/eye-off.svg";
 import eye from "../assets/eye.svg";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 
 
 export default function Registration() {
 
+    const { register, handleSubmit } = useForm({});
+    const [flag, setFlag] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    
+    const checkData = async (details) => {
+        await axios
+            .post("http://localhost:8000/login", details)
+            .then(({ data }) => {
+                if (data.token) {
+                    console.log(data);
+                }
+            })
+            .catch((arr) => { setFlag(true); console.log({ message: arr.message }) });
+    }
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevState => !prevState);
@@ -19,10 +34,10 @@ export default function Registration() {
                     <div className="mt-12 rounded-3xl border bg-gray-50 dark:border-gray-700 dark:bg-gray-800 -mx-6 sm:-mx-10 p-8 sm:p-10">
                         <img src={icon} className="w-14 dark:" alt="tailus logo" />
                         <h3 className="mt-4 text-2xl font-semibold text-center text-gray-700 dark:text-white">Sign up</h3>
-                        <form action="" className="mt-10 space-y-8 dark:text-white">
+                        <form onSubmit={handleSubmit(checkData)} className="mt-10 space-y-8 dark:text-white">
                             <div className="flex flex-col items-end">
                                 <div className="w-full relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300">
-                                    <input required type="Your password" placeholder="Insert your name" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input required type="Your password" placeholder="Insert your name" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition"  />
                                 </div>
 
                             </div>
@@ -33,11 +48,12 @@ export default function Registration() {
                             </div>
                             <div className="flex flex-col items-end">
                                 <div className="w-full relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300">
-                                    <input required type="password" placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input required type={showPassword ? "text" : "password"} placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
                                 </div>
                                 <button className="toggle-password w-6 dark" onClick={togglePasswordVisibility} type="button"><img src={showPassword ? eyeOff : eye} alt="" /></button>
 
                             </div>
+                            {flag && <h3 className="text-base font-normal text-center text-red-500 dark:text-white">One or more of the identifying details you typed are incorrect.</h3>}
 
                             <div>
                                 <button
