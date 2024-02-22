@@ -14,6 +14,7 @@ const groupSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     }],
+
     members: [{
         user: {
             type: mongoose.SchemaTypes.ObjectId,
@@ -25,6 +26,7 @@ const groupSchema = new mongoose.Schema({
             default: true,
         }
     }],
+    
     tasks: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Task'

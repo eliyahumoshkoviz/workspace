@@ -29,6 +29,7 @@ async function readUserWithPassword(object = {}) {
 async function update(filter, data) {
     return await userModel.updateOne(filter, data);
 }
+
 async function updateById(id, data) {
     return await userModel.updateOne({ _id: id }, data);
 }

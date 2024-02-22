@@ -7,7 +7,7 @@ const { authenticate } = require("../middleware/autu");
 router.post("/", authenticate, async (req, res) => {
 
     try {
-        let result = await groupService.addNewGroup(req.body);
+        let result = await groupService.createNewGroup(req.body);
         res.send(
             {
                 success: true,
@@ -25,7 +25,7 @@ router.get("/", authenticate, async (req, res) => {
         let result = await groupService.GetGroupInfo(req.body.data);
         res.send(
             {
-                deletedUser: result
+                deletedGroup: result
             }
         );
     } catch (err) {
@@ -34,10 +34,12 @@ router.get("/", authenticate, async (req, res) => {
 });
 
 router.patch("/", authenticate, async (req, res) => {
+
     try {
 
-        const updated = await groupService.updateFieldById(req.body.id, req.body.data);
-
+        const { id, data } = req.body;
+        const updated = await groupService.updateFieldById(id, data);
+        
         res.send(
             {
                 success: updated.modifiedCount > 0,
@@ -57,11 +59,11 @@ router.delete("/", authenticate, async (req, res) => {
         let group = await groupService.GetGroupInfo({ _id: req.body.id });
         let result = await groupService.del({ _id: req.body.id });
 
-        res.status(result.modifiedCount > 0 ? 200 : 400).send(
+        res.status(result.deletedCount > 0 ? 200 : 400).send(
             {
-                success: result.modifiedCount > 0,
-                message: result.modifiedCount > 0 ? "Group deleted successfully." : "Group3 not found",
-                deletedUser: result.modifiedCount > 0 ? group : null
+                success: result.deletedCount > 0,
+                message: result.deletedCount > 0 ? "Group deleted successfully." : "Group3 not found",
+                deletedUser: result.deletedCount > 0 ? group : null
             }
         );
 

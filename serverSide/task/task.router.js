@@ -24,7 +24,7 @@ router.get("/", authenticate, async (req, res) => {
         let result = await taskService.GetTaskInfo(req.body.data);
         res.send(
             {
-                deletedUser: result
+                deletedTask: result
             }
         );
     } catch (err) {
