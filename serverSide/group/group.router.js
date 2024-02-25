@@ -33,7 +33,7 @@ router.get("/", authenticate, async (req, res) => {
     }
 });
 
-router.patch("/", authenticate, async (req, res) => {
+router.patch("/", async (req, res) => {
 
     try {
 

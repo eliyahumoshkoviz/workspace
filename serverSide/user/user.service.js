@@ -56,12 +56,12 @@ async function updateFieldById(id, data) {
                 "input error - missing id or data",
         };
     }
-
+    
     //Make sure the user changes only this field (Only one of these fields can change)
-    const modifiableFields = ["name", "email", "password"];
+    const modifiableFields = ["name", "email", "password" , "groups"];
     const field = modifiableFields.find((field) =>
-        Object.keys(data).includes(field));
-
+    Object.keys(data).includes(field));
+    
     if (!field) {
         throw {
             code: 400,

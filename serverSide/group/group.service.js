@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const groupController = require("./group.controller");
 const userController = require("../user/user.controller")
 const { groupModel } = require("./group.modle");
+const userService = require("../user/user.service");
 
 
 async function createNewGroup(data) {
@@ -40,7 +41,11 @@ async function createNewGroup(data) {
         tasks: data.tasks || []
     };
 
-    return await groupController.create(groupData);
+    const newGroup = await groupController.create(groupData);
+    const groups = { groups: newGroup._id };
+    userService.updateFieldById({ _id: data.user }, groups)
+
+    return newGroup;
 
 }
 
@@ -114,9 +119,12 @@ async function updateFieldById(id, data) {
         if (memberExists) {
             throw { code: 400, message: "input error - the user already is exist" };
         }
+        const groups = { groups: id };
+        userService.updateFieldById({ _id: data.members }, groups)
         data.$push = { members: { user: data.members } };
         delete data.members;
     }
+
 
     return await groupController.update({ _id: id }, data);
 

@@ -15,15 +15,15 @@ async function create(data) {
 
 
 async function read(object = {}) {
-    return await userModel.find({ ...object, isActive: true });
+    return await userModel.find({ ...object, isActive: true }).populate("groups");
 }
 
 async function readOne(object = {}) {
-    return await userModel.findOne(object);
+    return await userModel.findOne(object).populate("groups");
 }
 
 async function readUserWithPassword(object = {}) {
-    return await userModel.findOne(object).select("+password");
+    return await userModel.findOne(object).select("+password").populate("groups");
 }
 
 async function update(filter, data) {
@@ -31,8 +31,12 @@ async function update(filter, data) {
 }
 
 async function updateById(id, data) {
+    data.groups && (data.$push = { groups: data.groups },
+        delete data.groups);
     return await userModel.updateOne({ _id: id }, data);
 }
+
+
 
 async function del(id) {
     return await updateById(id, { isActive: false });
