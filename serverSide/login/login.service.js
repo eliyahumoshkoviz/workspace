@@ -16,7 +16,7 @@ async function isUserExists({email,password}) {
     let user = await userController.readUserWithPassword({ email: email });
     // if not exist or not active throw code 400
     if (!user || !user.isActive) {
-        throw { code: 400, message: "user isn't exist" };
+        throw { code: 400, message: "User does not exist please register" };
     }
 
     //Checks if the email and password match the data

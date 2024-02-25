@@ -125,7 +125,6 @@ async function updateFieldById(id, data) {
         delete data.members;
     }
 
-
     return await groupController.update({ _id: id }, data);
 
 }

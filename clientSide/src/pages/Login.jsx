@@ -4,13 +4,16 @@ import eye from "../assets/eye.svg";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 
 export default function Login() {
-
+    
     const { register, handleSubmit } = useForm({});
     const [flag, setFlag] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [ad, setAD] = useState({});
+
+
     const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
@@ -21,16 +24,18 @@ export default function Login() {
         await axios
             .post("http://localhost:8000/login", details)
             .then(({ data }) => {
+              
                 if (data.token) {
                     console.log(data);
                 }
             })
-            .catch((arr) => { setFlag(true); console.log({ message: arr.message }) });
+            .catch((arr) => { setFlag(true); setAD(arr.response.data), console.log({ message: arr.response.data }) });
     }
 
     const sendEmail = async (event) => {
         event.preventDefault();
         console.log("sendEmail");
+
     }
 
     return (
@@ -59,7 +64,7 @@ export default function Login() {
                             </div>
 
                             <div>
-                                {flag && <h3 className="text-base font-normal text-center text-red-500 dark:text-white">One or more of the identifying details you typed are incorrect.</h3>}
+                                {flag && <h3 className="text-base font-normal text-center text-red-500 dark:text-white">{ad}</h3>}
                                 <button
                                     className="w-full mt-7 rounded-full bg-sky-500 dark:bg-sky-400 h-11 flex items-center justify-center px-6 py-3 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800"
                                 >
