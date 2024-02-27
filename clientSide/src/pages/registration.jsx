@@ -4,13 +4,12 @@ import eye from "../assets/eye.svg";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Registration() {
+export default function Registration({ setDetails }) {
 
     const { register, handleSubmit } = useForm({});
-    const [flag, setFlag] = useState(false);
-    const [ad, setAD] = useState({});
+    const [ad, setAD] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -23,9 +22,10 @@ export default function Registration() {
             .post("http://localhost:8000/registration", details)
             .then(({ data }) => {
                 navigate("/");
+                setDetails(details);
 
             })
-            .catch((err) => { setFlag(true); setAD(err.response.data); });
+            .catch((err) => { setAD(err?.response?.data); });
     }
 
     return (
@@ -46,18 +46,18 @@ export default function Registration() {
                             </div>
                             <div>
                                 <div className="relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300" >
-                                    <input onFocus={() => setFlag(false)} {...register("email", { required: true })} id="email" type="email" placeholder="Insert your email" autoComplete="username" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input onFocus={() => setAD('')} {...register("email", { required: true })} id="email" type="email" placeholder="Insert your email" autoComplete="username" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
                                 </div>
                             </div>
                             <div className="flex flex-col items-end">
                                 <div className="w-full relative before:absolute before:bottom-0 before:h-0.5 before:left-0 before:origin-right focus-within:before:origin-left before:right-0 before:scale-x-0 before:m-auto before:bg-sky-400 dark:before:bg-sky-800 focus-within:before:!scale-x-100 focus-within:invalid:before:bg-red-400 before:transition before:duration-300">
-                                    <input onFocus={() => setFlag(false)} id="password" autoComplete="current-password" {...register("password", { required: true })} type={showPassword ? "text" : "password"} placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
+                                    <input onFocus={() => setAD('')} id="password" autoComplete="current-password" {...register("password", { required: true })} type={showPassword ? "text" : "password"} placeholder="Insert your password" className="w-full bg-transparent pb-3  border-b border-gray-300 dark:placeholder-gray-300 dark:border-gray-600 outline-none  invalid:border-red-400 transition" />
                                 </div>
                                 <button className="w-6 dark" onClick={togglePasswordVisibility} type="button"><img src={showPassword ? eyeOff : eye} alt="" /></button>
                             </div>
 
                             <div>
-                                {flag && <h3 className="text-base font-normal text-center text-red-500 dark:text-white">{ad}</h3>}
+                                <h3 className="text-base font-normal text-center text-red-500 dark:text-white">{ad}</h3>
                                 <button
                                     className="w-full mt-7 rounded-full bg-sky-500 dark:bg-sky-400 h-11 flex items-center justify-center px-6 py-3 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800"
                                 >
