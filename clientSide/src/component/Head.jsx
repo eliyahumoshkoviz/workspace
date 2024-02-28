@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react';
+import Modal from "./Modal";
+
+
 
 function Head() {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+
     return (
-        <div className="sticky top-0 h-16 border-b bg-white dark:bg-gray-800 dark:border-gray-700 lg:py-2.5">
-            <div className="flex items-center justify-between space-x-4 px-6 2xl:container">
-                <h5 hidden className="ml-80 text-2xl font-medium text-gray-600 lg:block dark:text-white">Dashboard</h5>
+        <div className="sticky top-0 h-16 border-b bg-white dark:border-gray-700 lg:py-2.5">
+            <div className="flex items-center justify-between px-6">
+                <h5 hidden className="ml-80 text-2xl font-medium text-gray-600 lg:block">Workspace</h5>
                 <button className="-mr-2 h-16 w-12 border-r lg:hidden dark:border-gray-700 dark:text-gray-300">
                     <svg
                         className="my-auto h-6 w-6"
@@ -20,6 +29,7 @@ function Head() {
                         />
                     </svg>
                 </button>
+
                 <div className="flex space-x-4">
                     <div hidden className="md:block">
                         <div className="relative flex items-center text-gray-400 focus-within:text-cyan-400">
@@ -44,6 +54,7 @@ function Head() {
                             />
                         </div>
                     </div>
+
                     <button
                         aria-label="search"
                         className="h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 md:hidden dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
@@ -60,9 +71,10 @@ function Head() {
                             ></path>
                         </svg>
                     </button>
+
                     <button
                         aria-label="chat"
-                        className="h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
+                        className="focus:border-cyan-400 h-full p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +91,10 @@ function Head() {
                             />
                         </svg>
                     </button>
+
                     <button
                         aria-label="notification"
-                        className="h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
+                        className="focus:border-cyan-400 h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -94,8 +107,17 @@ function Head() {
                             />
                         </svg>
                     </button>
+                    <button onClick={openModal}
+                        aria-label="chat"
+                        className="focus:border-cyan-400 focus-within:text-red-800 h-full p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:active:bg-gray-800"
+                    >
+                        <svg className="h-6 w-6 text-sk-500" stroke="currentColor">
+                            <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </button>
                 </div>
             </div>
+            {isOpen && <Modal closeModal={closeModal} />}
         </div>
     )
 }
