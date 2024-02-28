@@ -16,7 +16,7 @@ function Group({ title }) {
                 Eliyahu
                 </h4>
                 <button
-                    className="relative flex items-center justify-center h-12 w-full px-6 rounded-full bg-white text-base font-semibold text-sky-600 hover:scale-105 transition duration-300 whitespace-nowrap"
+                    className="flex items-center justify-center h-12 w-full px-6 rounded-full bg-white text-base font-semibold text-sky-600 hover:scale-105 transition duration-300 whitespace-nowrap"
                 >
                     Click to enter
                 </button>

@@ -1,18 +1,16 @@
 import React from 'react'
 import icon from "../assets/weave.svg";
 
-
 function Nav() {
     return (
         <div>
             <div className="-mx-6 px-6 py-4">
-                <img src={icon} className="w-14 dark:" alt="tailus logo" />
+                <img src={icon} className="w-14" alt="Workspace logo" />
             </div>
 
             <ul className="mt-8 space-y-2 tracking-wide">
                 <li>
                     <div
-                        aria-label="dashboard"
                         className="relative flex items-center space-x-4 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-400 px-4 py-3 text-white"
                     >
                         <svg className="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
@@ -34,7 +32,7 @@ function Nav() {
                 </li>
                 <li>
                     <div
-                        className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600 dark:text-gray-300"
+                        className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600"
                     >
                         <svg
                             className="h-5 w-5"
@@ -51,7 +49,7 @@ function Nav() {
                                 d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"
                             />
                         </svg>
-                        <span className="group-hover:text-gray-700 dark:group-hover:text-gray-50">Grops</span>
+                        <span>Grops</span>
                     </div>
                 </li>
                 <li>
@@ -73,7 +71,7 @@ function Nav() {
                                 d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z"
                             />
                         </svg>
-                        <span className="group-hover:text-gray-700 dark:group-hover:text-gray-50">Tasks</span>
+                        <span>Tasks</span>
                     </div>
                 </li>
                 <li>
@@ -94,7 +92,7 @@ function Nav() {
                                 d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
                             />
                         </svg>
-                        <span className="group-hover:text-gray-700 dark:group-hover:text-gray-50">Other data</span>
+                        <span>Other data</span>
                     </div>
                 </li>
             </ul>
