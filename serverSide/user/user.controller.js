@@ -19,7 +19,14 @@ async function read(object = {}) {
 }
 
 async function readOne(object = {}) {
-    return await userModel.findOne(object).populate("groups");
+    return await userModel.findOne(object)
+    .populate({
+        path: 'groups',
+        populate: {
+            path: 'managers members.user',
+            model: 'user' 
+        }
+    });
 }
 
 async function readUserWithPassword(object = {}) {

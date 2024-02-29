@@ -12,9 +12,12 @@
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   background-color: #fefefe;
-  margin: auto; 
-  padding: 20px; 
+  margin: auto;
+  padding: 40px;
   border: 1px solid #888;
   border-radius: 8px;
   min-width: 400px;
@@ -22,7 +25,7 @@
 
 .close {
   color: #aaa;
-  float: right;
+  margin-left: auto;
   font-size: 28px;
   font-weight: bold;
 }
@@ -32,6 +35,3 @@
   color: black;
   cursor: pointer;
 }
-
-
-

@@ -1,9 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 function Logout() {
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("userWorkspace");
+        navigate('/')
+
+    }
+    
     return (
         <div className="-mx-6 flex items-center justify-between border-t px-6 pt-4 dark:border-gray-700">
-            <button className="group flex items-center space-x-4 rounded-md overflow-auto px-4 py-3 text-gray-600 dark:text-gray-300">
+            <button onClick={logout} className="group flex items-center space-x-4 rounded-md overflow-auto px-4 py-3 text-gray-600 dark:text-gray-300">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -25,3 +36,4 @@ function Logout() {
 }
 
 export default Logout
+

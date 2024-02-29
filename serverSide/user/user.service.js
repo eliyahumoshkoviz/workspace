@@ -44,6 +44,27 @@ async function GetUserInfo(data) {
     }
 
     return user;
+} 
+
+async function GetGroupsUser(data) {
+
+    // Makes sure the data is not empty
+    if (!data) {
+        throw {
+            code: 400,
+            message:
+                "input error - missing data",
+        };
+    }
+
+    // check if user exist or user exist but not active
+    let user = await userController.readOne(data);
+    // if not exist or not active throw code 400
+    if (!user || !user.isActive) {
+        throw { code: 400, message: "user isn't exist" };
+    }
+
+    return user.groups;
 }
 
 async function updateFieldById(id, data) {
@@ -110,4 +131,4 @@ async function del(data) {
     return await userController.del({ _id: user.id });
 }
 
-module.exports = { addNewUser, del, GetUserInfo, updateFieldById };
+module.exports = { addNewUser, del, GetUserInfo, GetGroupsUser, updateFieldById };

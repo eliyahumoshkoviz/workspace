@@ -3,7 +3,6 @@ import Modal from "./Modal";
 import ButttonPlus from './ButttonPlus';
 
 
-
 function Head() {
 
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +15,6 @@ function Head() {
     const closeModal = () => {
         setIsOpen(false);
         document.getElementById('nav').style.display = 'flex';
-        
     
     };
 
@@ -87,11 +85,10 @@ function Head() {
                     </button>
 
                     <button
-                        aria-label="chat"
-                        className="focus:border-cyan-400 h-full p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
+                        className="focus:border-cyan-400 h-10 p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
                     >
                         <svg
-                            className="m-auto h-5 w-5 text-gray-600"
+                            className="m-auto h-6 w-6 text-gray-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -101,22 +98,6 @@ function Head() {
                                 strokeLinejoin="round"
                                 strokeWidth="2"
                                 d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                            />
-                        </svg>
-                    </button>
-
-                    <button
-                        aria-label="notification"
-                        className="focus:border-cyan-400 h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="m-auto h-5 w-5 text-gray-600"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path
-                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
                             />
                         </svg>
                     </button>

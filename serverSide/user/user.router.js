@@ -21,10 +21,23 @@ router.post("/", authenticate, async (req, res) => {
 
 router.get("/", authenticate, async (req, res) => {
     try {
-        let result = await userService.GetUserInfo({ email: req.body.email });
+        let result = await userService.GetUserInfo(req.body.auth);
         res.send(
             {
                 deletedUser: result
+            }
+        );
+    } catch (err) {
+        res.status(err?.code ?? 400).send(err.message);
+    }
+});
+
+router.get("/groups", authenticate, async (req, res) => {
+    try {
+        let result = await userService.GetGroupsUser(req.body.auth);
+        res.send(
+            {
+                GroupsUser: result
             }
         );
     } catch (err) {

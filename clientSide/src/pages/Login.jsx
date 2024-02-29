@@ -25,13 +25,12 @@ export default function Login({ details }) {
         await axios
             .post("http://localhost:8000/login", details)
             .then(({ data }) => {
-
-                if (data.token) {
-                    console.log(data);
+                data.token && (
+                    localStorage.setItem("userWorkspace", JSON.stringify(data.token.token)),
                     navigate('/home')
-                }
+                );
             })
-            .catch((arr) => { setAD(arr?.response?.data) });
+            .catch((arr) => { setAD(arr?.response?.data || arr?.message); });
     }
 
     const sendEmail = async (event) => {
