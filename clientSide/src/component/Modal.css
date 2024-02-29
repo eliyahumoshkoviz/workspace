@@ -13,12 +13,11 @@
 
 .modal-content {
   background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
+  margin: auto; 
+  padding: 20px; 
   border: 1px solid #888;
   border-radius: 8px;
   min-width: 400px;
-  height: 250px;
 }
 
 .close {

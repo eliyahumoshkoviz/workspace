@@ -1,4 +1,5 @@
-import './Modal.css';
+import  Input  from './Input';
+import './modal.css';
 
 function Modal({ closeModal }) {
 
@@ -8,11 +9,10 @@ function Modal({ closeModal }) {
     <div className="modal" >
       <div className="modal-content">
         <span className="close" onClick={closeModal}>&times;</span>
-        <h4>פרטי שם:</h4>
-        <p>שם פרטי</p>
-        <h4>כותרת:</h4>
-        <p>תיאור</p>
-        <h4>מנהל:</h4>
+        <Input type={"text"} placeholder={"enter discription"} />
+        <Input type={"text"} placeholder={"enter discription"} />
+        <Input type={"text"} placeholder={"enter discription"} />
+       
         <button onClick={closeModal}>send</button>
       </div>
     </div>

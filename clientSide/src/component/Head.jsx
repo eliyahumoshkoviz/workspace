@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from "./Modal";
+import ButttonPlus from './ButttonPlus';
 
 
 
@@ -7,8 +8,21 @@ function Head() {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = () => {
+        setIsOpen(true)
+        document.getElementById('nav').style.display = 'none';
+
+    };
+    const closeModal = () => {
+        setIsOpen(false);
+        document.getElementById('nav').style.display = 'flex';
+        
+    
+    };
+
+    document.addEventListener('keydown', function (event) {
+        event.key === "Escape" && closeModal();
+    });
 
     return (
         <div className="sticky top-0 h-16 border-b bg-white  lg:py-2.5">
@@ -106,14 +120,7 @@ function Head() {
                             />
                         </svg>
                     </button>
-                    <button onClick={openModal}
-                        aria-label="chat"
-                        className="focus:border-cyan-400 h-full p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
-                    >
-                        <svg className="h-6 w-6 text-sk-500" stroke="currentColor">
-                            <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                    </button>
+                  <ButttonPlus openModal={openModal}/>
                 </div>
             </div>
             {isOpen && <Modal closeModal={closeModal} />}
