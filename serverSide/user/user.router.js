@@ -45,6 +45,19 @@ router.get("/groups", authenticate, async (req, res) => {
     }
 });
 
+router.get("/members", authenticate, async (req, res) => {
+    try {
+        let result = await userService.GetMembersUser(req.body.auth);
+        res.send(
+            {
+                MembersUser: result
+            }
+        );
+    } catch (err) {
+        res.status(err?.code ?? 400).send(err.message);
+    }
+});
+
 router.patch("/", authenticate, async (req, res) => {
     try {
         const result = await userService.GetUserInfo({ email: req.body.email });

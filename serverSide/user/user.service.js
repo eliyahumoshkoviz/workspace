@@ -44,7 +44,7 @@ async function GetUserInfo(data) {
     }
 
     return user;
-} 
+}
 
 async function GetGroupsUser(data) {
 
@@ -67,6 +67,36 @@ async function GetGroupsUser(data) {
     return user.groups;
 }
 
+async function GetMembersUser(data) {
+
+    // Makes sure the data is not empty
+    if (!data) {
+        throw {
+            code: 400,
+            message:
+                "input error - missing data",
+        };
+    }
+
+    // check if user exist or user exist but not active
+    let user = await userController.readOne(data);
+    // if not exist or not active throw code 400
+    if (!user || !user.isActive) {
+        throw { code: 400, message: "user isn't exist" };
+    }
+
+    let allMembers = [];
+
+    for (let group of user.groups) {
+        if (group.members && group.members.length > 0) {
+            allMembers = allMembers.concat(group.members);
+        }
+    }
+
+    return allMembers;
+
+}
+
 async function updateFieldById(id, data) {
 
     // Makes sure the id and data exist
@@ -77,12 +107,12 @@ async function updateFieldById(id, data) {
                 "input error - missing id or data",
         };
     }
-    
+
     //Make sure the user changes only this field (Only one of these fields can change)
-    const modifiableFields = ["name", "email", "password" , "groups"];
+    const modifiableFields = ["name", "email", "password", "groups"];
     const field = modifiableFields.find((field) =>
-    Object.keys(data).includes(field));
-    
+        Object.keys(data).includes(field));
+
     if (!field) {
         throw {
             code: 400,
@@ -90,14 +120,14 @@ async function updateFieldById(id, data) {
                 "input error - you can't change this field",
         };
     }
- 
+
     // check if user exist or user exist but not active
     let user = await userController.readOne(id);
     // if not exist or not active throw code 400
     if (!user || !user.isActive) {
         throw { code: 400, message: "user isn't exist" };
     }
-  
+
     // check object (by schema)
     if (!await valid.validateSingleField(field, data[field])) {
         throw { code: 400, message: "invalid fields" };
@@ -131,4 +161,4 @@ async function del(data) {
     return await userController.del({ _id: user.id });
 }
 
-module.exports = { addNewUser, del, GetUserInfo, GetGroupsUser, updateFieldById };
+module.exports = { addNewUser, del, GetUserInfo, GetGroupsUser, GetMembersUser, updateFieldById };
