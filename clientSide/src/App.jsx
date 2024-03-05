@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login details={details}/>} />
         <Route path="registration" element={<Registration setDetails={setDetails}/>} />
-        <Route path="home" element={<Layout/>} />
+        <Route path="home/*" element={<Layout/>} />
       </Routes>
     </div>
 

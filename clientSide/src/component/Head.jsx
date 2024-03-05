@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import Modal from "./Modal";
 import ButttonPlus from './ButttonPlus';
+import { useNavigate } from "react-router-dom";
+
 
 
 function Head() {
+
+    const navigate = useNavigate();
+
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -15,8 +20,13 @@ function Head() {
     const closeModal = () => {
         setIsOpen(false);
         document.getElementById('nav').style.display = 'flex';
-    
+
     };
+
+    const showDetails = () => {
+        navigate('details')
+
+    }
 
     document.addEventListener('keydown', function (event) {
         event.key === "Escape" && closeModal();
@@ -84,7 +94,7 @@ function Head() {
                         </svg>
                     </button>
 
-                    <button
+                    <button onClick={showDetails}
                         className="focus:border-cyan-400 h-10 p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
                     >
                         <svg
@@ -101,7 +111,7 @@ function Head() {
                             />
                         </svg>
                     </button>
-                  <ButttonPlus openModal={openModal}/>
+                    <ButttonPlus openModal={openModal} />
                 </div>
             </div>
             {isOpen && <Modal closeModal={closeModal} />}

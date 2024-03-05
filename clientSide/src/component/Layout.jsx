@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 
 import Content from "./Content";
 import Nav from "./Nav";
 import Logout from "./Logout";
 import Head from "./Head";
 import CheckLocal from "./CheckLocal";
+import Details from "./Details";
 
 
 export default function Layout() {
@@ -20,7 +22,11 @@ export default function Layout() {
                 <Logout />
             </aside>
             <div>
-                <Content /></div>
+                <Routes>
+                    <Route path="/" element={<Content />} />
+                    <Route path="/details" element={<Details />} />
+                </Routes>
+            </div>
         </div>
     );
 }
