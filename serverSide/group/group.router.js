@@ -33,18 +33,18 @@ router.get("/", authenticate, async (req, res) => {
     }
 });
 
-router.patch("/", async (req, res) => {
+router.patch("/", authenticate, async (req, res) => {
 
     try {
 
         const { id, data } = req.body;
         const updated = await groupService.updateFieldById(id, data);
-        
+
         res.send(
             {
                 success: updated.modifiedCount > 0,
                 message: updated.modifiedCount > 0 ? "Group updated successfully." : "Group not updated",
-                deletedUser: updated.modifiedCount > 0 ? await groupService.GetGroupInfo({ _id: req.body.id }) : null
+                deletedGRoup: updated.modifiedCount > 0 ? await groupService.GetGroupInfo({ _id: req.body.id }) : null
             }
         );
     } catch (err) {

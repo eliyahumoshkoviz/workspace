@@ -3,6 +3,7 @@ const groupController = require("./group.controller");
 const userController = require("../user/user.controller")
 const { groupModel } = require("./group.modle");
 const userService = require("../user/user.service");
+const taskService = require('../task/task.service')
 
 
 async function createNewGroup(data) {
@@ -95,7 +96,7 @@ async function updateFieldById(id, data) {
     }
 
     //Make sure the user changes only this field (Only one of these fields can change)
-    const modifiableFields = ["name", "description", "active", "members"];
+    const modifiableFields = ["name", "description", "active", "members", "tasks"];
     const field = modifiableFields.find((field) =>
         Object.keys(data).includes(field));
 
@@ -120,9 +121,16 @@ async function updateFieldById(id, data) {
             throw { code: 400, message: "input error - the user already is exist" };
         }
         const groups = { groups: id };
-        userService.updateFieldById({ _id: data.members }, groups)
+        await userService.updateFieldById({ _id: data.members }, groups)
         data.$push = { members: { user: data.members } };
         delete data.members;
+    }
+
+    if (data.tasks) {
+        const { title, description, assignedTo } = data.tasks;
+        const deletedTask = await taskService.addNewTask({title, description, assignedTo});
+        data.$push = { tasks: deletedTask._id };
+        delete data.tasks;
     }
 
     return await groupController.update({ _id: id }, data);
@@ -131,7 +139,6 @@ async function updateFieldById(id, data) {
 
 async function del(id) {
 
-    console.log(id);
     // Makes sure the id is not empty
     if (!id) {
         throw {

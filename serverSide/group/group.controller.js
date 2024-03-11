@@ -13,10 +13,12 @@ async function read(object = {}) {
     return userId ?
         await groupModel.find({ $or: [{ managers: userId }, { 'members.user': userId }], active: true })
             .populate("managers")
-            .populate("members.user") :
+            .populate("members.user")
+            .populate("tasks") :
         await groupModel.find({ ...object, active: true })
             .populate("managers")
-            .populate("members.user");
+            .populate("members.user")
+            .populate("tasks");
 }
 
 async function readOne(object = {}) {
@@ -24,10 +26,12 @@ async function readOne(object = {}) {
     return userId ?
         await groupModel.findOne({ $or: [{ managers: userId }, { 'members.user': userId }], active: true })
             .populate("managers")
-            .populate("members.user") :
+            .populate("members.user")
+            .populate("tasks") :
         await groupModel.findOne({ ...object, active: true })
             .populate("managers")
-            .populate("members.user");
+            .populate("members.user")
+            .populate("tasks");
 }
 
 async function update(filter, data) {
