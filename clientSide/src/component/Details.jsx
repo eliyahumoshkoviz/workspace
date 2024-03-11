@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ListItem from './ListItem'
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { GrGroup } from "react-icons/gr";
 import { BsListTask } from "react-icons/bs";
 import Members from './Members';
+import axios from "axios";
 
 
 
 function Details() {
 
+    const [arreyMembers, setArreyMembers] = useState([])
+    const [arreyGroups, setArreyGroups] = useState([]);
+
     const getMembers = async () => {
+        const token = localStorage.getItem("userWorkspace");
+        !token && (navigate('/'))
+        const auth = `Bearer ${token.replace(/"/g, '')}`
+        await axios
+            .get("http://localhost:8000/user/members", {
+                headers: {
+                    "Authorization": auth
+                }
+            })
+            .then(({ data }) => {
+                setArreyMembers(data.MembersUser);
+                data.message === "jwt expired" && (navigate('/'))
+
+            })
+            .catch((arr) => { console.log(arr); });
+    }
+
+    const getGroups = async () => {
         const token = localStorage.getItem("userWorkspace");
         !token && (navigate('/'))
         const auth = `Bearer ${token.replace(/"/g, '')}`
@@ -27,22 +49,34 @@ function Details() {
             })
             .catch((arr) => { console.log(arr); });
     }
-    
+
+    useEffect(() => {
+        getMembers();
+        getGroups();
+    }, [])
+
+    const members = arreyMembers && arreyMembers.map(member => member.user);
+
     return (
+
         <div className="ml-auto mb-6 min-h-[86vh] lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
             <div className="flex flex-wrap justify-end gap-3 px-6 pt-6 2xl:container">
                 <ListItem
                     title="Number of Members"
-                    count={3}
-                    items={[<Members name={"lkgsj"} email={"kjgf"} />,
-                    <Members name={"lkgsj"} email={"kjgf"} />,
-                    <Members name={"lkgsj"} email={"kjgf"} />]}
+                    count={arreyMembers.length}
+                    items={members.map(member => (
+                        <Members
+                            key={member._id}
+                            name={member.name}
+                            email={member.email}
+                        />
+                    ))}
                     icon={<AiOutlineUsergroupDelete />}
                 />
                 <ListItem
                     title="Number of Groups"
-                    count={5}
-                    items={["File 1", "File 2", "File 3", "File 4", "File 5"]}
+                    count={arreyGroups.length}
+                    items={arreyGroups.map(group => group.name)}
                     icon={<GrGroup />
                     }
 
