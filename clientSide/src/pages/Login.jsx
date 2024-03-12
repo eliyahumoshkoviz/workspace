@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-export default function Login({ details }) {
+export default function Login({ details, setDetails }) {
 
     const { register, handleSubmit } = useForm({});
     const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +22,7 @@ export default function Login({ details }) {
     };
 
     const checkData = async (details) => {
+        setDetails(details)
         await axios
             .post("http://localhost:8000/login", details)
             .then(({ data }) => {
@@ -40,7 +41,7 @@ export default function Login({ details }) {
     }
 
     return (
-
+        
         <div className="px-12 m-auto mx-auto xl:container sm:px-0">
             <div className="h-full mx-auto max-w-80">
                 <div className="py-12 m-auto">
@@ -80,6 +81,6 @@ export default function Login({ details }) {
                 </div>
             </div>
         </div>
-
+        
     )
 }

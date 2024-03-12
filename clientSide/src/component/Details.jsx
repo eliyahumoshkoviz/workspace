@@ -1,61 +1,82 @@
-import React, { useEffect, useState } from 'react'
-import ListItem from './ListItem'
+import React, { useEffect, useState, useContext } from 'react'
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { GrGroup } from "react-icons/gr";
 import { BsListTask } from "react-icons/bs";
-import Members from './Members';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import DataContext from "../context/DataContext";
+
+
+import Members from './Members';
+import ListItem from './ListItem'
+import Task from './Task';
+
 
 
 
 function Details() {
 
-    const [arreyMembers, setArreyMembers] = useState([])
-    const [arreyGroups, setArreyGroups] = useState([]);
+    const [arrayMembers, setArrayMembers] = useState([])
+    const [arrayGroups, setArrayGroups] = useState([]);
+    const [arrayTasks, setArrayTasks] = useState([]);
+
+    const email = useContext(DataContext);
+
+    const navigate = useNavigate();
 
     const getMembers = async () => {
-        const token = localStorage.getItem("userWorkspace");
-        !token && (navigate('/'))
-        const auth = `Bearer ${token.replace(/"/g, '')}`
-        await axios
-            .get("http://localhost:8000/user/members", {
+        try {
+            const token = localStorage.getItem("userWorkspace");
+            !token && (navigate('/'))
+            const auth = `Bearer ${token.replace(/"/g, '')}`;
+            const { data } = await axios.get("http://localhost:8000/user/members", {
                 headers: {
                     "Authorization": auth
                 }
-            })
-            .then(({ data }) => {
-                setArreyMembers(data.MembersUser);
-                data.message === "jwt expired" && (navigate('/'))
+            });
+            setArrayMembers(data.MembersUser);
+            data.message === "jwt expired" && (navigate('/'))
 
-            })
-            .catch((arr) => { console.log(arr); });
+        } catch (error) {
+            console.error(error);
+        }
     }
+
 
     const getGroups = async () => {
-        const token = localStorage.getItem("userWorkspace");
-        !token && (navigate('/'))
-        const auth = `Bearer ${token.replace(/"/g, '')}`
 
-        await axios
-            .get("http://localhost:8000/user/groups", {
+        try {
+            const token = localStorage.getItem("userWorkspace");
+            !token && (navigate('/'))
+            const auth = `Bearer ${token.replace(/"/g, '')}`;
+            const { data } = await axios.get("http://localhost:8000/user/groups", {
                 headers: {
                     "Authorization": auth
                 }
-            })
-            .then(({ data }) => {
-                setArreyGroups(data.GroupsUser);
-                data.message === "jwt expired" && (navigate('/'))
+            });
+            data.GroupsUser && setArrayGroups(data.GroupsUser);
+            data.message === "jwt expired" && (navigate('/'))
+            getTasks(data.GroupsUser);
 
-            })
-            .catch((arr) => { console.log(arr); });
+        } catch (error) {
+            console.error(error);
+        }
     }
+
+
+    const getTasks = (arr) => {
+        let allTasks = arr.map(group => group.tasks).flat();
+        allTasks = allTasks.filter(item => item.assignedTo.email === email);
+        setArrayTasks(allTasks);
+    }
+
 
     useEffect(() => {
         getMembers();
         getGroups();
     }, [])
 
-    const members = arreyMembers && arreyMembers.map(member => member.user);
+    const members = arrayMembers && arrayMembers.map(member => member.user);
 
     return (
 
@@ -63,7 +84,7 @@ function Details() {
             <div className="flex flex-wrap justify-end gap-3 px-6 pt-6 2xl:container">
                 <ListItem
                     title="Number of Members"
-                    count={arreyMembers.length}
+                    count={arrayMembers.length}
                     items={members.map(member => (
                         <Members
                             key={member._id}
@@ -75,27 +96,23 @@ function Details() {
                 />
                 <ListItem
                     title="Number of Groups"
-                    count={arreyGroups.length}
-                    items={arreyGroups.map(group => group.name)}
+                    count={arrayGroups.length}
+                    items={arrayGroups.map(group => group.name)}
                     icon={<GrGroup />
                     }
 
                 />
                 <ListItem
                     title="Number of Tasks"
-                    count={10}
-                    items={[
-                        "Task 1",
-                        "Task 2",
-                        "Task 3",
-                        "Task 4",
-                        "Task 5",
-                        "Task 6",
-                        "Task 7",
-                        "Task 8",
-                        "Task 9",
-                        "Task 10"
-                    ]}
+                    count={arrayTasks.length}
+                    items={arrayTasks.map(task =>
+                        <Task
+                            key={task._id}
+                            title={task.title}
+                            description={task.description}
+                            assignedTo={task.assignedTo.name}
+                            status={task.status}
+                        />)}
                     icon={<BsListTask />}
 
                 />

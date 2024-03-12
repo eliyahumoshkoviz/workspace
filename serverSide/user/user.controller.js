@@ -19,14 +19,20 @@ async function read(object = {}) {
 }
 
 async function readOne(object = {}) {
-    return await userModel.findOne(object)
-    .populate({
-        path: 'groups',
-        populate: {
-            path: 'managers members.user',
-            model: 'user' 
-        }
-    });
+
+    try {
+        return await userModel.findOne(object)
+            .populate({
+                path: 'groups',
+                populate: [
+                    { path: 'managers members.user', model: 'user' },
+                    { path: 'tasks', model: 'Task', populate: { path: 'assignedTo', model: 'user' } }
+                ]
+            });
+    } catch (error) {
+        console.error("Error occurred:", error);
+    }
+
 }
 
 async function readUserWithPassword(object = {}) {
