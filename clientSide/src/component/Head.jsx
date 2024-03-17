@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import Modal from "./Modal";
 import ButttonPlus from './ButttonPlus';
-import { useNavigate } from "react-router-dom";
-
-
 
 function Head() {
-
-    const navigate = useNavigate();
-
 
     const [isOpen, setIsOpen] = useState(false);
 

@@ -4,10 +4,8 @@ import { GrGroup } from "react-icons/gr";
 import { BsListTask } from "react-icons/bs";
 import DataContext from "../context/DataContext";
 
-
 import Members from './Members';
 import ListItem from './ListItem'
-import Task from './Task';
 import TasksPage from './TasksPage';
 
 
@@ -15,7 +13,7 @@ function Details() {
 
     const { arrayTasks, arrayMembers, arrayGroups } = useContext(DataContext);
 
-    const members = arrayMembers && arrayMembers.map(member => member.user);
+    const members = arrayMembers && arrayMembers?.map(member => member.user);
 
     return (
 
@@ -23,8 +21,8 @@ function Details() {
             <div className="flex flex-wrap justify-end gap-3 px-6 pt-6 2xl:container">
                 <ListItem
                     title="Number of Members"
-                    count={arrayMembers.length}
-                    items={members.map(member => (
+                    count={arrayMembers?.length}
+                    items={members?.map(member => (
                         <Members
                             key={member._id}
                             name={member.name}
@@ -35,15 +33,15 @@ function Details() {
                 />
                 <ListItem
                     title="Number of Groups"
-                    count={arrayGroups.length}
-                    items={arrayGroups.map(group => group.name)}
+                    count={arrayGroups?.length}
+                    items={arrayGroups?.map(group => group.name)}
                     icon={<GrGroup />
                     }
 
                 />
                 <ListItem
                     title="Number of Tasks"
-                    count={arrayTasks.length}
+                    count={arrayTasks?.length}
                     items={<TasksPage arrayTasks={arrayTasks}/>}
                     icon={<BsListTask />}
 

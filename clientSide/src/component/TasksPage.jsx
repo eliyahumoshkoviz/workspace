@@ -19,7 +19,7 @@ const TasksPage = ({ arrayTasks }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {arrayTasks.map((task,index) => (
+                        {arrayTasks?.map((task,index) => (
                             <tr key={index}>
                                 <td>{index+1}</td>
                                 <td>{task.title}</td>
