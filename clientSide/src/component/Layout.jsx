@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
+import React,{ useContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import DataContext from "../context/DataContext";
+
 
 
 import Content from "./Content";
@@ -8,9 +10,12 @@ import Logout from "./Logout";
 import Head from "./Head";
 import CheckLocal from "./CheckLocal";
 import Details from "./Details";
+import TasksPage from "./TasksPage";
 
 
 export default function Layout() {
+    const { arrayTasks } = useContext(DataContext);
+
 
     return (
         <div className="bg-gray-100 ">
@@ -25,6 +30,7 @@ export default function Layout() {
                 <Routes>
                     <Route path="/" element={<Content />} />
                     <Route path="/details" element={<Details />} />
+                    <Route path="/tasks" element={<TasksPage arrayTasks={arrayTasks} />} />
                 </Routes>
             </div>
         </div>

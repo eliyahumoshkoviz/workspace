@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-
-
 export default function ListItem({ title, count, items, icon }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,14 +15,24 @@ export default function ListItem({ title, count, items, icon }) {
 
       </button>
       {isOpen && (
-        <ul className="mt-4">
-          {items.map((item, index) => (
-            <li key={index} className="mb-2 text-base">
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div>
+          {Array.isArray(items) ? (
+            <ul className="mt-4">
+              {items.map((item, index) => (
+                <li key={index} className="mb-2 text-base">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="w-full p-4 items-center bg-white border rounded-lg shadow-md" >
+              {items}
+            </div>
+          )}
+        </div>
       )}
+
+
     </div>
   );
 }

@@ -1,7 +1,25 @@
 import React from 'react'
 import icon from "../assets/weave.svg";
+import { useNavigate } from "react-router-dom";
+
 
 function Nav() {
+
+    const navigate = useNavigate();
+
+    const showGroups = () => {
+        navigate('/home')
+    }
+
+    const showTasks = () => {
+        navigate('tasks')
+    }
+
+    const showAllData = () => {
+        navigate('details')
+    }
+
+
     return (
         <div>
             <div className="-mx-6 px-6 py-4">
@@ -31,7 +49,7 @@ function Nav() {
                     </div>
                 </li>
                 <li>
-                    <div
+                    <button onClick={showGroups}
                         className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600"
                     >
                         <svg
@@ -50,10 +68,10 @@ function Nav() {
                             />
                         </svg>
                         <span>Grops</span>
-                    </div>
+                    </button>
                 </li>
                 <li>
-                    <div
+                    <button onClick={showTasks}
                         className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600 dark:text-gray-300"
                     >
                         <svg
@@ -72,10 +90,10 @@ function Nav() {
                             />
                         </svg>
                         <span>Tasks</span>
-                    </div>
+                    </button>
                 </li>
                 <li>
-                    <div
+                    <button onClick={showAllData}
                         className="group flex items-center space-x-4 rounded-md px-4 py-3 text-gray-600 dark:text-gray-300"
                     >
                         <svg
@@ -92,8 +110,8 @@ function Nav() {
                                 d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
                             />
                         </svg>
-                        <span>Other data</span>
-                    </div>
+                        <span>All data</span>
+                    </button>
                 </li>
             </ul>
         </div>

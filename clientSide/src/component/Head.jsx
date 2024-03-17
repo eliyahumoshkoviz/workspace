@@ -23,11 +23,6 @@ function Head() {
 
     };
 
-    const showDetails = () => {
-        navigate('details')
-
-    }
-
     document.addEventListener('keydown', function (event) {
         event.key === "Escape" && closeModal();
     });
@@ -94,7 +89,7 @@ function Head() {
                         </svg>
                     </button>
 
-                    <button onClick={showDetails}
+                    <button
                         className="focus:border-cyan-400 h-10 p-2  w-10 rounded-xl border bg-gray-100 active:bg-gray-200"
                     >
                         <svg

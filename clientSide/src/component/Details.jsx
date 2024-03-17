@@ -1,80 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { AiOutlineUsergroupDelete } from "react-icons/ai";
 import { GrGroup } from "react-icons/gr";
 import { BsListTask } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import DataContext from "../context/DataContext";
 
 
 import Members from './Members';
 import ListItem from './ListItem'
 import Task from './Task';
-
-
+import TasksPage from './TasksPage';
 
 
 function Details() {
 
-    const [arrayMembers, setArrayMembers] = useState([])
-    const [arrayGroups, setArrayGroups] = useState([]);
-    const [arrayTasks, setArrayTasks] = useState([]);
-
-    const email = useContext(DataContext);
-
-    const navigate = useNavigate();
-
-    const getMembers = async () => {
-        try {
-            const token = localStorage.getItem("userWorkspace");
-            !token && (navigate('/'))
-            const auth = `Bearer ${token.replace(/"/g, '')}`;
-            const { data } = await axios.get("http://localhost:8000/user/members", {
-                headers: {
-                    "Authorization": auth
-                }
-            });
-            setArrayMembers(data.MembersUser);
-            data.message === "jwt expired" && (navigate('/'))
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-
-    const getGroups = async () => {
-
-        try {
-            const token = localStorage.getItem("userWorkspace");
-            !token && (navigate('/'))
-            const auth = `Bearer ${token.replace(/"/g, '')}`;
-            const { data } = await axios.get("http://localhost:8000/user/groups", {
-                headers: {
-                    "Authorization": auth
-                }
-            });
-            data.GroupsUser && setArrayGroups(data.GroupsUser);
-            data.message === "jwt expired" && (navigate('/'))
-            getTasks(data.GroupsUser);
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-
-    const getTasks = (arr) => {
-        let allTasks = arr.map(group => group.tasks).flat();
-        allTasks = allTasks.filter(item => item.assignedTo.email === email);
-        setArrayTasks(allTasks);
-    }
-
-
-    useEffect(() => {
-        getMembers();
-        getGroups();
-    }, [])
+    const { arrayTasks, arrayMembers, arrayGroups } = useContext(DataContext);
 
     const members = arrayMembers && arrayMembers.map(member => member.user);
 
@@ -105,14 +44,7 @@ function Details() {
                 <ListItem
                     title="Number of Tasks"
                     count={arrayTasks.length}
-                    items={arrayTasks.map(task =>
-                        <Task
-                            key={task._id}
-                            title={task.title}
-                            description={task.description}
-                            assignedTo={task.assignedTo.name}
-                            status={task.status}
-                        />)}
+                    items={<TasksPage arrayTasks={arrayTasks}/>}
                     icon={<BsListTask />}
 
                 />
